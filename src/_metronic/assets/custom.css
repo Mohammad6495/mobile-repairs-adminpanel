@@ -1,0 +1,35 @@
+@font-face {
+  font-family: iransans;
+  src: url('./fonts/iransans-regular.woff');
+}
+
+* {
+  font-family: iransans;
+}
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.unit-request-item {
+  background-color: rgba(124, 252, 0, 0.4);
+  padding: 10px 20px;
+  border-radius: 6px;
+  margin: 5px 10px;
+}
+
+.react-table-bg {
+  background-color: #f3f2f2 !important;
+}
+.react-table-active {
+  background-color: #edcdcd !important;
+}
+
+.bullet {
+  display: none !important;
+}
+
+.forn-iransans {
+  font-family: 'iransans' !important;
+}

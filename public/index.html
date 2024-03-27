@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Metronic React Demo 8" />
+    <title>مدیریت</title>
+    <link rel="shortcut icon" href="%PUBLIC_URL%/media/logos/logo-734c951a.png" />
+    <link rel="stylesheet" id="layout-styles-anchor" href="%PUBLIC_URL%/splash-screen.css" />
+    <style>
+      .lds-ellipsis {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
+      .lds-ellipsis div {
+        position: absolute;
+        top: 20px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #1ab646;
+        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+      }
+      .lds-ellipsis div:nth-child(1) {
+        left: 8px;
+        animation: lds-ellipsis1 0.6s infinite;
+      }
+      .lds-ellipsis div:nth-child(2) {
+        left: 8px;
+        animation: lds-ellipsis2 0.6s infinite;
+      }
+      .lds-ellipsis div:nth-child(3) {
+        left: 32px;
+        animation: lds-ellipsis2 0.6s infinite;
+      }
+      .lds-ellipsis div:nth-child(4) {
+        left: 56px;
+        animation: lds-ellipsis3 0.6s infinite;
+      }
+      @keyframes lds-ellipsis1 {
+        0% {
+          transform: scale(0);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      @keyframes lds-ellipsis3 {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(0);
+        }
+      }
+      @keyframes lds-ellipsis2 {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(24px, 0);
+        }
+      }
+    </style>
+  </head>
+
+  <body id="kt_body" class="page-loading">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <!--begin::Theme mode setup on page load-->
+    <script>
+      if (document.documentElement) {
+        var defaultThemeMode = 'system'
+
+        var hasKTName = document.body.hasAttribute('data-kt-name')
+        var lsKey = 'kt_' + (hasKTName ? name + '_' : '') + 'theme_mode_value'
+        var themeMode = localStorage.getItem(lsKey)
+        if (!themeMode) {
+          if (defaultThemeMode === 'system') {
+            themeMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+          } else {
+            themeMode = defaultThemeMode
+          }
+        }
+
+        document.documentElement.setAttribute('data-theme', themeMode)
+      }
+    </script>
+    <!--end::Theme mode setup on page load-->
+
+    <div id="root" class="d-flex flex-column flex-root"></div>
+    <div id="splash-screen" class="splash-screen">
+      <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <div id="root-modals"></div>
+  </body>
+</html>
