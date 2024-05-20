@@ -14,6 +14,17 @@ export interface IUser {
   nikname?: string
 }
 
+export interface IHeadline {
+  id?: string | number
+  title?: string
+  description?: string
+  isAvailable?: boolean,
+  updatedAt?: string
+  ceatedAt?: string
+  eductionals?:IEductional[]
+}
+
+
 export interface IUserRole {
   id?: string
   name?: string
@@ -68,34 +79,32 @@ export interface IUserAddress {
 
 export interface IOrder {
   id?: string
-  code?: string
   finalPrice?: number
-  products?: IProductOrder[]
-  status?: string
-  isOnline?: boolean
-  isHome?: boolean
+  course?: ICourse[]
+  licenceKey?: string
+  isPay?: boolean
   user?: IUser
-  userAddress?: IUserAddress,
   updatedAt?: string
+  createdAt?: string
 }
 
 
 export interface ICourse {
   id?: string,
   title?: string,
-  periodTime?: string,
-  dayHolding?: string,
-  timeHolding?: string,
   description?: string,
-  courseConditions?: string,
   price?: number,
-  image?: string
-  teacher?: ITeacher[],
+  image?: string,
+  viewCount?: number,
+  courseLevel?: number,
+  courseStatus?: number,
+  teacher?: string,
+  isFree?: boolean;
+  video?:string,
   category?: ICategory,
-  eductional?: IEductional,
-  headLines?: string[],
   isAvailable: boolean,
-  startTime?:string
+  updatedAt?: string
+  createdAt?: string
 }
 export interface ITeacher {
   id?: string,
@@ -107,9 +116,12 @@ export interface ITeacher {
 }
 export interface IEductional {
   id?: string,
-  name?: string,
-  description?: string,
-  courses?: ICourse[]
+  title: string
+  isActive?: boolean,
+  isAvailable?: boolean,
+  isPayActive?:boolean,
+  videoTime?: Date,
+  headLine?:IHeadline 
 }
 
 export interface IHeadLines {
@@ -134,3 +146,4 @@ export interface IRequestCourse {
   updatedAt?: string
   createdAt?: string
 }
+

@@ -11,11 +11,7 @@ const columns: ReadonlyArray<Column<ICourse>> = [
     Header: 'نام اساتید',
     accessor: 'teacher',
   },
-  
-  {
-    Header: 'نام آموزشگاه',
-    accessor: 'eductional',
-  },
+
   {
     Header: 'وضعیت نمایش',
     accessor: 'isAvailable',

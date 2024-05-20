@@ -33,3 +33,11 @@
 .forn-iransans {
   font-family: 'iransans' !important;
 }
+.MuiClock-squareMask {
+  font-family: 'iransans' !important;
+}
+
+.MuiPickersLayout-root {
+  border: 1px solid !important;
+  border-radius: 8px ;
+}

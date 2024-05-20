@@ -6,6 +6,8 @@ import * as requests_teahcer from './requests/teacher'
 import * as requests_eductional from './requests/eductional'
 import * as requests_familiarService from './requests/familiarService'
 import * as requests_requestCourse from './requests/requestCourse'
+import * as requests_headline from './requests/headline'
+import * as requests_eductionalVideo from './requests/eductionalVideo'
 
 export const ServiceAgent = {
   authentication: requests_authentication,
@@ -15,5 +17,7 @@ export const ServiceAgent = {
   eductional: requests_eductional,
   teacher: requests_teahcer,
   requestCourse: requests_requestCourse,
-  familiarService: requests_familiarService
+  familiarService: requests_familiarService,
+  headline:requests_headline,
+  eductionalVideo: requests_eductionalVideo
 }

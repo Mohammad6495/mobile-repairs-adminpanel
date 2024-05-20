@@ -19,10 +19,7 @@ const CategoryListPage = lazy(() => import('../pages/category/CategoryList.page'
 ///Users
 const UsersListPage = lazy(() => import('../pages/users/UsersList.page'))
 ///Order
-const TeacherListPage = lazy(() => import('../pages/teacher/TeacherList.page'))
-const EductionalListPage = lazy(() => import('../pages/eductional/EductionalList.page'))
-const FamiliarServiceListPage = lazy(() => import('../pages/familiarService/FamiliarServiceList.page'))
-const RequestCourseListPage = lazy(() => import('../pages/requestCourse/RequestCourseList.page'))
+const HeadlineListPage = lazy(() => import('../pages/headline/HeadlineList.page'))
 
 
 const PrivateRoutes = () => {
@@ -33,23 +30,6 @@ const PrivateRoutes = () => {
         {/* Redirect to Dashboard after success login/registartion */}
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
         {/* Pages */}
-
-        <Route
-          path='teacher-list'
-          element={
-            <SuspensedView>
-              <TeacherListPage />
-            </SuspensedView>
-          }
-        />
-        <Route
-          path='eductional-list'
-          element={
-            <SuspensedView>
-              <EductionalListPage />
-            </SuspensedView>
-          }
-        />
         
         <Route
           path='upsert-course'
@@ -75,22 +55,8 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
-        <Route
-          path='familiar-service-list'
-          element={
-            <SuspensedView>
-              <FamiliarServiceListPage />
-            </SuspensedView>
-          }
-        />
-        <Route
-          path='request-course-list'
-          element={
-            <SuspensedView>
-              <RequestCourseListPage />
-            </SuspensedView>
-          }
-        />
+
+      
         <Route
           path='category-list'
           element={
@@ -99,6 +65,16 @@ const PrivateRoutes = () => {
             </SuspensedView>
           }
         />
+        <Route
+          path='headline-list/:id'
+          element={
+            <SuspensedView>
+              <HeadlineListPage />
+            </SuspensedView>
+          }
+        />
+
+        
         <Route
           path='users-list'
           element={

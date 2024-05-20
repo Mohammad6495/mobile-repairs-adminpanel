@@ -8,16 +8,15 @@ export const useTitleInput = ({ className = '', initialvalue }) =>
     initialvalue,
     className,
     tagType: 'input',
-    label: 'عنوان دوره',
+    label: 'عنوان',
     isRequired: true,
   })
-
-export const useCodeInput = ({ className = '', initialvalue }) =>
+  export const useVideoTime = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
     className,
     tagType: 'input',
-    label: 'کد دوره :',
+    label: 'زمان ویدیو (دقیقه)',
     isRequired: true,
   })
 
@@ -30,49 +29,14 @@ export const usePriceInput = ({ className = '', initialvalue }) =>
     isRequired: true,
   })
 
-export const useQuantityInput = ({ className = '', initialvalue }) =>
+  export const useTeacherInput = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
     className,
     tagType: 'input',
-    label: 'تعداد :',
+    label: 'نام استاد :',
     isRequired: true,
   })
-export const usePeriodTime = ({ className = '', initialvalue }) =>
-  useGeneralInput({
-    initialvalue,
-    className,
-    tagType: 'input',
-    label: 'مدت زمان دوره :',
-    isRequired: true,
-  })
-
-export const useDayHolding = ({ className = '', initialvalue }) =>
-  useGeneralInput({
-    initialvalue,
-    className,
-    tagType: 'input',
-    label: 'روز های برگذاری :',
-    isRequired: false,
-  })
-export const useTimeHolding = ({ className = '', initialvalue }) =>
-  useGeneralInput({
-    initialvalue,
-    className,
-    tagType: 'input',
-    label: 'ساعت برگذاری :',
-    isRequired: false,
-  })
-export const useCourseConditions = ({ className = '', initialvalue }) =>
-  useGeneralInput({
-    initialvalue,
-    className,
-    tagType: 'input',
-    label: 'نوع آموزش :',
-    isRequired: false,
-  })
-
-
 export const useDescriptionInput = ({ className = '', initialvalue }) =>
   useGeneralInput({
     initialvalue,
@@ -191,47 +155,49 @@ export const useCategoryList = ({ initialvalue = [] }) => {
   };
 };
 
-export const useEductionalList = ({ initialvalue = [] }) => {
-  const [selectedEductionalList, setSelectedEductionalList] =
+
+const CourseLevelList = [
+  {label: 'مقدماتی', value: '0'},
+  {label: 'متوسط', value: '1'},
+  {label: 'پیشرفته', value: '2'},
+]
+
+export const useCourseLevelList = ({ initialvalue = [] }) => {
+  const [selectedCourseLevelList, setSelectedCourseLevelList] =
     useState({
       label: initialvalue[0]?.name,
       value: initialvalue[0]?.id
     });
   const [
-    selectedEductionalListError,
-    set_selectedEductionalListError,
+    selectedCourseLevelListError,
+    set_selectedCourseLevelListError,
   ] = useState("");
 
-  const handleEductionalListChange = (newValue, actionMeta) => {
-    setSelectedEductionalList(newValue);
+  const handleCourseLevelListChange = (newValue, actionMeta) => {
+    setSelectedCourseLevelList(newValue);
     if (newValue) {
       // set_selectedSatisfactionError('یکی از واحدها باید انتخاب شود')
     } else {
-      set_selectedEductionalListError("");
+      set_selectedCourseLevelListError("");
     }
   };
 
   /////////////////
-  const renderEductionalListSelectList = ({ className }) => {
+  const renderCourseLevelListSelectList = ({ className }) => {
     return (
       <div className={className}>
         <label style={{ fontSize: "15px" }} className="m-0 p-0 mb-2 h5">
-          آموزشگاه :
+          سطح آموزش :
         </label>
         <Select
           noOptionsMessage={() => "گزینه دیگری وجود ندارد"}
-          options={initialvalue.map(item => {
-            return {
-              value: item?.id,
-              label: item?.name
-            }
-          })}
-          value={selectedEductionalList}
+          options={CourseLevelList}
+          value={selectedCourseLevelList}
           dir="rtl"
           isSearchable
           styles={colourStyles}
           className="w-100"
-          onChange={handleEductionalListChange}
+          onChange={handleCourseLevelListChange}
           placeholder=""
         />
         <div
@@ -240,8 +206,8 @@ export const useEductionalList = ({ initialvalue = [] }) => {
           style={{ color: "red", fontSize: ".8rem", height: "1rem" }}
           className="error mt-1"
         >
-          {selectedEductionalListError
-            ? selectedEductionalListError
+          {selectedCourseLevelListError
+            ? selectedCourseLevelListError
             : ""}
         </div>
       </div>
@@ -249,50 +215,54 @@ export const useEductionalList = ({ initialvalue = [] }) => {
   };
   /////////
   return {
-    renderEductionalListSelectList,
-    selectedEductionalList: selectedEductionalList,
-    setSelectedEductionalList: setSelectedEductionalList,
+    renderCourseLevelListSelectList,
+    selectedCourseLevelList: selectedCourseLevelList,
+    setSelectedCourseLevelList: setSelectedCourseLevelList,
+    CourseLevelList
   };
 };
+const CourseStatusList = [
+  {label: 'در حال برگزاری', value: '0'},
+  {label: 'شروع نشده', value: '1'},
+  {label: 'پایان یافته', value: '2'},
+]
 
-export const useTeacherList = ({ initialvalue = [] }) => {
-  const [selectedTeacherList, setSelectedTeacherList] =
-    useState(initialvalue);
+export const useCourseStatusList = ({ initialvalue = [] }) => {
+  const [selectedCourseStatusList, setSelectedCourseStatusList] =
+    useState({
+      label: initialvalue[0]?.name,
+      value: initialvalue[0]?.id
+    });
   const [
-    selectedTeacherListError,
-    set_selectedTeacherListError,
+    selectedCourseStatusListError,
+    set_selectedCourseStatusListError,
   ] = useState("");
 
-  const handleTeacherListChange = (newValue, actionMeta) => {
-    setSelectedTeacherList(newValue);
+  const handleCourseStatusListChange = (newValue, actionMeta) => {
+    setSelectedCourseStatusList(newValue);
     if (newValue) {
       // set_selectedSatisfactionError('یکی از واحدها باید انتخاب شود')
     } else {
-      set_selectedTeacherListError("");
+      set_selectedCourseStatusListError("");
     }
   };
 
   /////////////////
-  const renderTeacherListSelectList = ({ className }) => {
+  const renderCourseStatusListSelectList = ({ className }) => {
     return (
       <div className={className}>
         <label style={{ fontSize: "15px" }} className="m-0 p-0 mb-2 h5">
-          مدرسین :
+          وضعیت دوره :
         </label>
         <Select
-                  isMulti
-
           noOptionsMessage={() => "گزینه دیگری وجود ندارد"}
-          options={initialvalue.map((item) => ({
-            value: item?.id?.toString() ?? "",
-            label: item.name,
-          }))}
-          value={selectedTeacherList}
+          options={CourseStatusList}
+          value={selectedCourseStatusList}
           dir="rtl"
           isSearchable
           styles={colourStyles}
           className="w-100"
-          onChange={handleTeacherListChange}
+          onChange={handleCourseStatusListChange}
           placeholder=""
         />
         <div
@@ -301,8 +271,8 @@ export const useTeacherList = ({ initialvalue = [] }) => {
           style={{ color: "red", fontSize: ".8rem", height: "1rem" }}
           className="error mt-1"
         >
-          {selectedTeacherListError
-            ? selectedTeacherListError
+          {selectedCourseStatusListError
+            ? selectedCourseStatusListError
             : ""}
         </div>
       </div>
@@ -310,8 +280,9 @@ export const useTeacherList = ({ initialvalue = [] }) => {
   };
   /////////
   return {
-    renderTeacherListSelectList,
-    selectedTeacherList: selectedTeacherList,
-    setSelectedTeacherList: setSelectedTeacherList,
+    renderCourseStatusListSelectList,
+    selectedCourseStatusList: selectedCourseStatusList,
+    setSelectedCourseStatusList: setSelectedCourseStatusList,
+    CourseStatusList
   };
 };

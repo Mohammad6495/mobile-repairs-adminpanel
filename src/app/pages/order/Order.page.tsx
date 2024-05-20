@@ -3,7 +3,7 @@ import { useTable, useFilters, usePagination } from 'react-table'
 import { Button, Modal, Table } from 'react-bootstrap'
 import { PageTitle } from '../../../_metronic/layout/core'
 import { apiCaller } from '../../hooks/useApi'
-import { IFamiliarService } from '../../interfaces'
+import { ICategory } from '../../interfaces'
 import { ServiceAgent } from '../../services/serviceAgent'
 import { useLoadingContext } from '../../contexts/loading/loading'
 import { convertFullDateAndTime } from '../../utils/dateUtils'
@@ -20,28 +20,28 @@ import CustomerForBuyFilter from '../../components/filter-customer/CustomerForBu
 import { BsPlusSquare } from 'react-icons/bs'
 import * as productInputs from '../../components/productInputs'
 import useImageInput from '../../components/input/imageInput'
-import moment from 'jalali-moment'
-const FamiliarServiceListPage = () => {
+
+const CategoryListPage = () => {
   const navigate = useNavigate()
 
   const { userInfo } = useAuth()
 
   ///states
-  const [FamiliarServiceListCartable, setFamiliarServiceListCartable] = useState<IFamiliarService[]>([])
+  const [CategoryListCartable, setCategoryListCartable] = useState<ICategory[]>([])
   const { handleOpenLoadingOverlay, handleCloseLoadingOverlay } = useLoadingContext()
   const [search, setSerach] = useState<string>()
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [requestId, setRequestId] = useState<string>()
   const [pageSizeC, setPageSizeC] = useState<number>(15);
   const [totalRecords, setTotalRecords] = useState<any>()
-  const [FamiliarServiceIsFetch, setFamiliarServiceIsFetch] = useState(false);
-  const [showDeleteFamiliarService, setShowDeleteFamiliarService] = useState(false)
-  const [showAddFamiliarService, setShowAddFamiliarService] = useState(false)
-  const [FamiliarServiceValue, setFamiliarServiceValue] = useState<IFamiliarService>()
+  const [CategoryIsFetch, setCategoryIsFetch] = useState(false);
+  const [showDeleteCategory, setShowDeleteCategory] = useState(false)
+  const [showAddCategory, setShowAddCategory] = useState(false)
+  const [categoryValue, setCategoryValue] = useState<ICategory>()
 
   const getAllListCatableData = () => {
     apiCaller({
-      api: ServiceAgent.familiarService.request_getAllfamiliarservices,
+      api: ServiceAgent.category.request_getAllcategorys,
       apiArguments: {
         currentPage: currentPage + 1,
         pageSize: pageSizeC,
@@ -49,18 +49,18 @@ const FamiliarServiceListPage = () => {
       },
       toastMessage: true,
       onStart: () => {
-        setFamiliarServiceIsFetch(true)
+        setCategoryIsFetch(true)
         if (!search)
           handleOpenLoadingOverlay()
       },
       onEnd: () => {
-        setFamiliarServiceIsFetch(false)
+        setCategoryIsFetch(false)
         if (!search)
           handleCloseLoadingOverlay()
       },
       onSuccess: (resp) => {
         if (resp.status == 200 && resp?.data?.statusCode == 200) {
-          setFamiliarServiceListCartable((resp?.data?.data?.data as IFamiliarService[]))
+          setCategoryListCartable((resp?.data?.data?.data as ICategory[]))
           setTotalRecords(resp?.data?.data?.totalRecords)
         }
       },
@@ -69,7 +69,7 @@ const FamiliarServiceListPage = () => {
   }
 
   useEffect(() => {
-    if (!FamiliarServiceListCartable || FamiliarServiceListCartable?.length == 0) {
+    if (!CategoryListCartable || CategoryListCartable?.length == 0) {
       getAllListCatableData()
     }
   }, [])
@@ -113,7 +113,7 @@ const FamiliarServiceListPage = () => {
   } = useTable<any>(
     {
       columns: columns,
-      data: FamiliarServiceListCartable,
+      data: CategoryListCartable,
       initialState: { pageIndex: currentPage, pageSize: pageSizeC } as any,
     },
     useFilters,
@@ -128,7 +128,7 @@ const FamiliarServiceListPage = () => {
   const location = useLocation()
 
   useEffect(() => {
-    document.title = 'پنل مدیریت - لیست آشنایی با خدمات';
+    document.title = 'پنل مدیریت - لیست دسته بندی';
   }, [location?.pathname])
 
   const {
@@ -137,89 +137,116 @@ const FamiliarServiceListPage = () => {
     setInputValue: setTitleValue,
     validate: titleInputValid
   } = productInputs?.useTitleInput({
-    initialvalue: FamiliarServiceValue?.phoneNumber || '',
+    initialvalue: categoryValue?.title || '',
     className: 'col-12'
   })
 
+  const {
+    isTrue: isAvailable,
+    renderYesNoInput: isAvailableRender,
+    setIsTrue: setIsAvailable
+  } = productInputs?.useYesNoInput({
+    id: 'isAvailable',
+    initialvalue: categoryValue?.isAvailable || false,
+    title: 'وضعیت نمایش'
+  })
+
+  const {
+    imageRef: productImageInputRef,
+    renderer: productImageInputRenderer,
+    resetImage: productImageReset
+  } = useImageInput({ initialValue: categoryValue?.image || '' });
 
 
-  const deleteHandleFamiliarService = () => {
+  const deleteHandleCategory = () => {
     if (requestId) {
       apiCaller({
-        api: ServiceAgent.familiarService.request_removefamiliarservice,
+        api: ServiceAgent.category.request_removeCategory,
         apiArguments: requestId,
         onSuccess: (resp) => {
           if (resp?.status == 200 && resp?.data?.statusCode == 200) {
-            setShowDeleteFamiliarService(false)
+            setShowDeleteCategory(false)
             getAllListCatableData()
           }
         },
         onStart: handleOpenLoadingOverlay,
         onEnd: handleCloseLoadingOverlay,
-        onSuccessMessage: 'حذف آشنایی با خدمات با موفقیت انجام شد'
+        onSuccessMessage: 'حذف دوره با موفقیت انجام شد'
       })
     }
   }
 
+  const {
+    imageRef: CategryImageInputRef,
+    renderer: CategryImageInputRenderer,
+    resetImage,
+    imageSrc: CategryImageInputSrc
+  } = useImageInput({ initialValue: fileBaseUrl + categoryValue?.image || '' });
   const handleSubmit = async () => {
     const v1 = await titleInputValid();
     const formData = new FormData();
-    if (FamiliarServiceValue?.id) {
-      formData.append('id', FamiliarServiceValue?.id as any)
+    if (categoryValue?.id) {
+      formData.append('id', categoryValue?.id as any)
     }
     formData.append('title', titleValue as any)
-
+    if (CategryImageInputRef?.current?.files?.[0]) {
+      formData.append('image', CategryImageInputRef?.current?.files?.[0])
+    }
     if (v1) {
       apiCaller({
-        api: FamiliarServiceValue?.id ? ServiceAgent.familiarService.request_editfamiliarservice : ServiceAgent.familiarService.request_createfamiliarservice,
+        api: categoryValue?.id ? ServiceAgent.category.request_editCategory : ServiceAgent.category.request_createCategory,
         apiArguments: formData,
         onSuccess: (resp) => {
           if (resp?.status == 200 && resp?.data?.statusCode == 200) {
-            setShowAddFamiliarService(false)
+            setShowAddCategory(false)
+            setIsAvailable(false)
             setTitleValue('')
+            resetImage()
             getAllListCatableData()
           }
         },
         onStart: handleOpenLoadingOverlay,
         onEnd: handleCloseLoadingOverlay,
-        onSuccessMessage: 'ثبت آشنایی با خدمات با موفقیت انجام شد'
+        onSuccessMessage: 'ثبت دسته بندی با موفقیت انجام شد'
       })
     }
   }
 
   useEffect(() => {
-    if (!showAddFamiliarService) {
-      setFamiliarServiceValue(undefined)
+    if (!showAddCategory) {
+      setCategoryValue(undefined)
+      setIsAvailable(false)
       setTitleValue('')
+      resetImage()
     }
-  }, [showAddFamiliarService])
+  }, [showAddCategory])
 
   return (
     <>
-      <PageTitle breadcrumbs={[]}>لیست آشنایی با خدمات</PageTitle>
+      <PageTitle breadcrumbs={[]}>لیست دسته بندی</PageTitle>
       <CustomerForBuyFilter searchCustomerHandle={searchCustomerHandle} />
       <div className={`card `}>
         {/* begin::Header */}
         <div className='card-header align-items-center border-0 pt-5'>
           <h3 className='card-title align-items-start flex-column'>
-            <span className='card-label fw-bold fs-3 mb-1'>لیست آشنایی با خدمات</span>
-            <span className='text-muted mt-1 fw-semibold fs-7'>{totalRecords} آشنایی با خدمات</span>
+            <span className='card-label fw-bold fs-3 mb-1'>لیست دسته بندی</span>
+            <span className='text-muted mt-1 fw-semibold fs-7'>{totalRecords} دسته بندی</span>
           </h3>
-          {/* <Button onClick={() => {
-            setShowAddFamiliarService(!showAddFamiliarService)
-          }}><span className='me-1'>افزودن</span> <BsPlusSquare fontSize={20} /></Button> */}
+          <Button onClick={() => {
+            setShowAddCategory(!showAddCategory)
+          }}><span className='me-1'>افزودن</span> <BsPlusSquare fontSize={20} /></Button>
         </div>
         {/* end::Header */}
         {/* begin::Body */}
         <div className='card-body py-3'>
           {/* begin::Table container */}
           <div className='table-responsive'>
-            {FamiliarServiceIsFetch && (
+            {CategoryIsFetch && (
               <div className='d-flex justify-content-center w-100'>
                 <p>در حال بارگذاری ...</p>
               </div>
             )}
-            {!FamiliarServiceIsFetch && FamiliarServiceListCartable?.length === 0 && (
+            {!CategoryIsFetch && CategoryListCartable?.length === 0 && (
               <div className='d-flex justify-content-center w-100'>
                 <p>رکوردی یافت نشد .</p>
               </div>
@@ -244,41 +271,39 @@ const FamiliarServiceListPage = () => {
                 ))}
               </thead>
               <tbody {...getTableBodyProps()}>
-                {!FamiliarServiceIsFetch &&
-                  FamiliarServiceListCartable?.length > 0 &&
-                  FamiliarServiceListCartable?.map((item) => (
+                {!CategoryIsFetch &&
+                  CategoryListCartable?.length > 0 &&
+                  CategoryListCartable?.map((item) => (
                     <tr key={item.id} className='p-0 w-100 '>
                       <td style={{ verticalAlign: 'middle' }} className='  text-truncate '>
                         <div className='d-flex align-items-center px-3'>
-                          <span className=''>{item?.phoneNumber}</span>
+                          <img className='rounded' style={{ width: '60px', height: '60px' }} src={fileBaseUrl + item?.image} />
+                          <span className=''>{item?.title}</span>
                         </div>
                       </td>
                       <td style={{ verticalAlign: 'middle' }} className='  text-truncate '>
-                        {item?.favoriotArea}
-                      </td>
-                      <td style={{ verticalAlign: 'middle' }} className='  text-truncate '>
-                        {moment(item?.createdAt).format('jYYYY/jMM/jDD')}
+                        {item?.isAvailable ? 'فعال' : 'غیر فعال'}
                       </td>
                       <td style={{ verticalAlign: 'middle' }} className=''>
                         <div className='d-flex justify-content-center flex-shrink-0'>
-                          {/* <div
+                          <div
                             onClick={() => {
-                              setFamiliarServiceValue(item)
-                              setShowAddFamiliarService(!showAddFamiliarService)
+                              setCategoryValue(item)
+                              setShowAddCategory(!showAddCategory)
                             }}
                             style={{
                               width: '40px',
                               height: '34px',
                             }}
-                            title='جزییات'
+                            title='ویرایش'
                             className='btn btn-icon btn-bg-success btn-active-color-primary me-2'
                           >
                             <AiOutlineEdit color='#fff' fontSize={22} />
-                          </div> */}
+                          </div>
                           <div
                             onClick={() => {
                               setRequestId(item?.id as string);
-                              setShowDeleteFamiliarService(true)
+                              setShowDeleteCategory(true)
                             }}
                             style={{
                               width: '40px',
@@ -335,26 +360,26 @@ const FamiliarServiceListPage = () => {
         </div>
         {/* end::Table container */}
         <Modal
-          onHide={() => setShowDeleteFamiliarService(!showDeleteFamiliarService)}
-          show={showDeleteFamiliarService}
+          onHide={() => setShowDeleteCategory(!showDeleteCategory)}
+          show={showDeleteCategory}
           className='modal-lg'
           dialogClassName='p-3'
         >
           <Modal.Header closeButton>
-            <h3>حذف آشنایی با خدمات</h3>
+            <h3>حذف دوره</h3>
           </Modal.Header>
           <Modal.Body>
             <div className='form-edit-Cartable'>
-              <p>آیا میخواهید این آشنایی با خدمات را حذف کنید؟</p>
+              <p>آیا میخواهید این دوره را حذف کنید؟</p>
               <div className='d-flex w-100 justify-content-end'>
-                <button onClick={deleteHandleFamiliarService} className='btn btn-primary mt-2 me-3'>
+                <button onClick={deleteHandleCategory} className='btn btn-primary mt-2 me-3'>
                   بلی
                 </button>
                 <button
                   className='btn btn-danger mt-2'
                   type='button'
                   onClick={() => {
-                    setShowDeleteFamiliarService(false)
+                    setShowDeleteCategory(false)
                   }}
                 >
                   خیر
@@ -364,23 +389,28 @@ const FamiliarServiceListPage = () => {
           </Modal.Body>
         </Modal>
         <Modal
-          onHide={() => setShowAddFamiliarService(!showAddFamiliarService)}
-          show={showAddFamiliarService}
+          onHide={() => setShowAddCategory(!showAddCategory)}
+          show={showAddCategory}
           className='modal-lg'
           dialogClassName='p-3'
         >
           <Modal.Header closeButton>
-            <h3>افزودن آشنایی با خدمات</h3>
+            <h3>افزودن دسته بندی</h3>
           </Modal.Header>
           <Modal.Body>
             <div className='form-edit-Cartable'>
               <form>
                 {titleInput()}
-
+                {CategryImageInputRenderer({
+                  id: 'CategoryImage',
+                  label: 'عکس دسته بندی',
+                  className: 'col-md-6  mt-2   pe-md-2 pe-0',
+                  required: false,
+                })}
                 {/* {isAvailableRender({ className: 'col-12 mt-2 mb-4' })} */}
                 {/* {productImageInputRenderer({
                   id: 'productImage',
-                  label: 'عکس آشنایی با خدمات',
+                  label: 'عکس دسته بندی',
                   className: 'col-md-6 mt-2 pe-md-2 pe-0',
                   required: false,
                 })} */}
@@ -393,7 +423,7 @@ const FamiliarServiceListPage = () => {
                   className='btn btn-danger mt-2'
                   type='button'
                   onClick={() => {
-                    setShowAddFamiliarService(false)
+                    setShowAddCategory(false)
                   }}
                 >
                   خیر
@@ -407,4 +437,4 @@ const FamiliarServiceListPage = () => {
   )
 }
 
-export default FamiliarServiceListPage;
+export default CategoryListPage;

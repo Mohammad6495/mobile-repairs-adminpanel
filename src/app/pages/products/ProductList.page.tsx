@@ -17,7 +17,7 @@ import { toast } from 'react-toastify'
 import { formatPrice } from '../../utils/utility'
 import { fileBaseUrl } from '../../services/SERVICE-CONSTANTS'
 import CustomerForBuyFilter from '../../components/filter-customer/CustomerForBuyFilter'
-import { FaExchangeAlt } from "react-icons/fa";
+import { CiViewTimeline } from "react-icons/ci";
 
 
 const CourseListPage = () => {
@@ -65,30 +65,6 @@ const CourseListPage = () => {
     })
   }
 
-  const getCartableSearch = () => {
-    // apiCaller({
-    //     api: ServiceAgent.cartable.request_getAllCartable,
-    //     apiArguments: {
-    //         CurrentPage: currentPage + 1,
-    //         PageSize: pageSizeC,
-    //         search: search,
-    //     },
-    //     toastMessage: true,
-    //     onStart: () => {
-    //         setCourseIsFetch(true)
-    //     },
-    //     onEnd: () => {
-    //         setCourseIsFetch(false)
-    //     },
-    //     onSuccess: (resp) => {
-    //         if (resp.status == 200 && resp?.data?.statusCode == 200) {
-    //             setCourseListCartable((resp?.data?.data?.data as ICourse[]))
-    //             setTotalRecords(resp?.data?.data?.totalRecords)
-    //         }
-    //     },
-    //     onErrorMessage: 'دریافت لیست خریدارن با خطا مواجه شد .',
-    // })
-  }
 
   useEffect(() => {
     if (!CourseListCartable || CourseListCartable?.length == 0) {
@@ -100,13 +76,6 @@ const CourseListPage = () => {
     getAllListCatableData()
   }, [currentPage, pageSizeC, search])
 
-  // useEffect(() => {
-  //     if (search) {
-  //         getCartableSearch()
-  //     } else {
-  //         getAllListCatableData();
-  //     }
-  // }, [search])
 
   const totalPages = Math.ceil(totalRecords / pageSizeC);
 
@@ -236,11 +205,9 @@ const CourseListPage = () => {
                         </div>
                       </td>
                       <td style={{ verticalAlign: 'middle' }} className=' '>
-                        {item.teacher?.map(item => item.name + ' , ')}
+                        {item.teacher}
                       </td>
-                      <td style={{ verticalAlign: 'middle' }} className=' '>
-                        {item?.eductional?.name}
-                      </td>
+
                       <td style={{ verticalAlign: 'middle' }} className=' '>
                         {item?.isAvailable ? 'فعال' : 'غیر فعال'}
                       </td>
@@ -253,6 +220,17 @@ const CourseListPage = () => {
                       <td style={{ verticalAlign: 'middle' }} className=''>
                         <div className='d-flex justify-content-center flex-shrink-0'>
                           <div
+                            onClick={() => navigate(`/headline-list/${item?.id}`)}
+                            style={{
+                              width: '40px',
+                              height: '34px',
+                            }}
+                            title='سرفصل'
+                            className='btn btn-icon btn-bg-primary btn-active-color-primary me-2'
+                          >
+                            <CiViewTimeline color='#fff' fontSize={22} />
+                          </div>
+                          <div
                             onClick={() => navigate(`/edit-course/${item?.id}`)}
                             style={{
                               width: '40px',
@@ -263,17 +241,6 @@ const CourseListPage = () => {
                           >
                             <AiOutlineEdit color='#fff' fontSize={22} />
                           </div>
-                          {/* <div
-                            onClick={() => navigate(`/edit-course/${item?.id}`)}
-                            style={{
-                              width: '40px',
-                              height: '34px',
-                            }}
-                            title='نمایش'
-                            className='btn btn-icon btn-bg-primary btn-active-color-primary me-2'
-                          >
-                            <FaExchangeAlt color='#fff' fontSize={22} />
-                          </div> */}
                           <div
                             onClick={() => {
                               setRequestId(item?.id);
@@ -369,7 +336,7 @@ const CourseListPage = () => {
           dialogClassName='p-3'
         >
           <Modal.Header closeButton>
-            <h3>نمایش دوره</h3>
+            <h3>حذف دوره</h3>
           </Modal.Header>
           <Modal.Body>
             <div className='form-edit-Cartable'>

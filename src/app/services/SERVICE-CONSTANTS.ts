@@ -1,16 +1,16 @@
 // export const baseUrl = 'https://pardisangroup.com/api'
 // export const fileBaseUrl = 'https://pardisangroup.com'
-export const baseUrl = 'http://api.ga-app.ir'
-export const fileBaseUrl = 'http://api.ga-app.ir/'
+export const baseUrl = 'http://localhost:6100'
+export const fileBaseUrl = 'http://localhost:6100/'
 export const chathubUrl = 'https://api.pardisan-mc.com/chathub'
-export const tokenKey = 'admin-token-learn'
+export const tokenKey = 'admin-token-mobile'
 
 export const APIS_ENDPOINTS = {
   dashboard: {
     getStatistics: '/Dashboard/Dashboard',
   },
   authentincation: {
-    login: '/account/login',
+    login: '/account/login-panel',
     getRoles: '/account/getroles',
     getProfile: '/account/getprofile',
     getUsersByRole: '/account/getusersbyrole',
@@ -53,8 +53,20 @@ export const APIS_ENDPOINTS = {
     editCategory: '/category/edit',
     removeCategory: '/category/remove',
   },
+  headline: {
+    getAllheadline: '/headline/getAll',
+    addheadline: '/headline/create',
+    editheadline: '/headline/edit',
+    removeheadline: '/headline/remove',
+  },
   users: {
     getAllUsers: '/users/getallusers',
     gotouserapp: '/users/gotouserapp',
+  },
+  eductionalVideo: {
+    getAllEductionalVideo: '/eductionalVideo/getAll',
+    addEductionalVideo: '/eductionalVideo/create',
+    editEductionalVideo: '/eductionalVideo/edit',
+    removeEductionalVideo: '/eductionalVideo/remove',
   },
 }

@@ -179,7 +179,8 @@ const CategoryListPage = () => {
   const {
     imageRef: CategryImageInputRef,
     renderer: CategryImageInputRenderer,
-    resetImage
+    resetImage,
+    imageSrc: CategryImageInputSrc
   } = useImageInput({ initialValue: fileBaseUrl + categoryValue?.image || '' });
   const handleSubmit = async () => {
     const v1 = await titleInputValid();
@@ -188,8 +189,9 @@ const CategoryListPage = () => {
       formData.append('id', categoryValue?.id as any)
     }
     formData.append('title', titleValue as any)
-    formData.append('image', CategryImageInputRef?.current?.files?.[0])
-
+    if (CategryImageInputRef?.current?.files?.[0]) {
+      formData.append('image', CategryImageInputRef?.current?.files?.[0])
+    }
     if (v1) {
       apiCaller({
         api: categoryValue?.id ? ServiceAgent.category.request_editCategory : ServiceAgent.category.request_createCategory,

@@ -1,3 +1,4 @@
+import { ICategory } from "../interfaces"
 
 export interface ILoginPayload {
   username: string
@@ -94,17 +95,14 @@ export interface IPayloadProduct {
 export interface ICourseService {
   id?: string,
   title?: string,
-  periodTime?: string,
-  dayHolding?: string,
-  timeHolding?: string,
   description?: string,
-  courseConditions?: string,
   price?: number,
-  image?:string
-  teacher?: string[] | any,
-  category?: string,
-  eductional?: string,
-  headLines?: string[] |  any,
+  image?: string,
+  viewCount?: number,
+  courseLevel?: number,
+  courseStatus?: number,
+  teacher?: string,
+  isFree?: boolean
+  category?: ICategory,
   isAvailable: boolean,
-  startTime?:string
 }

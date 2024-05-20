@@ -12,14 +12,11 @@ export const request_createProduct = async ({
   price,
   title,
   id,
-  courseConditions,
-  dayHolding,
-  eductional,
-  headLines,
-  periodTime,
+  courseLevel,
+  courseStatus,
+  isFree,
   teacher,
-  timeHolding,
-  startTime
+  viewCount
 }: ICourseService) => {
   const formData = new FormData()
   if (id) {
@@ -29,20 +26,12 @@ export const request_createProduct = async ({
   formData.append('category', category as any)
   formData.append('description', description as any)
   formData.append('isAvailable', isAvailable as any)
-  formData.append('startTime', startTime as any)
+  formData.append('courseLevel', courseLevel as any)
   formData.append('price', price as any)
   formData.append('title', title as any)
-  formData.append('courseConditions', courseConditions as any)
-  formData.append('dayHolding', dayHolding as any)
-  formData.append('eductional', eductional as any)
-  formData.append('periodTime', periodTime as any)
+  formData.append('courseStatus', courseStatus as any)
+  formData.append('isFree', isFree as any)
   formData.append('teacher', teacher as any)
-  formData.append('timeHolding', timeHolding as any)
-  if (headLines?.length !== 0) {
-    for (let i = 0; i < headLines.length; i++) {
-      formData.append('headLines', headLines[i] as any)
-    }
-  }
   return http.post(call_product.createProduct, formData)
 }
 export const request_editProduct = async ({
@@ -53,14 +42,11 @@ export const request_editProduct = async ({
   price,
   title,
   id,
-  courseConditions,
-  dayHolding,
-  eductional,
-  headLines,
-  periodTime,
+  courseLevel,
+  courseStatus,
+  isFree,
   teacher,
-  timeHolding,
-  startTime
+  viewCount
 }: ICourseService) => {
   const formData = new FormData()
   if (id) {
@@ -72,24 +58,13 @@ export const request_editProduct = async ({
   formData.append('category', category as any)
   formData.append('description', description as any)
   formData.append('isAvailable', isAvailable as any)
+  formData.append('courseLevel', courseLevel as any)
   formData.append('price', price as any)
-  formData.append('startTime', startTime as any)
   formData.append('title', title as any)
-  formData.append('courseConditions', courseConditions as any)
-  formData.append('dayHolding', dayHolding as any)
-  formData.append('eductional', eductional as any)
-  formData.append('periodTime', periodTime as any)
-  if (teacher?.length !== 0) {
-    for (let i = 0; i < teacher?.length; i++) {
-      formData.append('teacher', teacher[i] as any)
-    }
-  }
-  formData.append('timeHolding', timeHolding as any)
-  if (headLines?.length !== 0) {
-    for (let i = 0; i < headLines.length; i++) {
-      formData.append('headLines', headLines[i] as any)
-    }
-  }
+  formData.append('courseStatus', courseStatus as any)
+  formData.append('isFree', isFree as any)
+  formData.append('teacher', teacher as any)
+
   return http.post(call_product.editProduct, formData)
 }
 

@@ -37,38 +37,10 @@ export function AsideMenuMain() {
         <AsideMenuItem to='/upsert-course' title='افزودن دوره جدید' hasBullet={true} />
       </AsideMenuItemWithSub>
       
-      <AsideMenuItemWithSub title='دسته بندی دوره ها' componentsIcon={<TbCategory fontSize={20} className='me-2' />}>
+      <AsideMenuItemWithSub title='دسته بندی' componentsIcon={<TbCategory fontSize={20} className='me-2' />}>
         <AsideMenuItem
           to='/category-list'
-          title={'مدیریت دسته بندی دوره ها'}
-          hasBullet={true}
-        />
-      </AsideMenuItemWithSub>
-      <AsideMenuItemWithSub title='مدیریت مدرسین' componentsIcon={<FaChalkboardTeacher fontSize={20} className='me-2' />}>
-        <AsideMenuItem
-          to='/teacher-list'
-          title={'لیست مدرسین'}
-          hasBullet={true}
-        />
-      </AsideMenuItemWithSub>
-      <AsideMenuItemWithSub title='مدیریت آموزشگاه' componentsIcon={<FaUniversity fontSize={20} className='me-2' />}>
-        <AsideMenuItem
-          to='/eductional-list'
-          title={'لیست اموزشگاه'}
-          hasBullet={true}
-        />
-      </AsideMenuItemWithSub>
-      <AsideMenuItemWithSub title='مدیریت آشنایی خدمات' componentsIcon={<MdOutlineMiscellaneousServices fontSize={20} className='me-2' />}>
-        <AsideMenuItem
-          to='/familiar-service-list'
-          title={'لیست آشنایی خدمات'}
-          hasBullet={true}
-        />
-      </AsideMenuItemWithSub>
-      <AsideMenuItemWithSub title='مدیریت درخواست ها' componentsIcon={<TbGitPullRequest fontSize={20} className='me-2' />}>
-        <AsideMenuItem
-          to='/request-course-list'
-          title={'لیست درخواست ها'}
+          title={'مدیریت دسته بندی'}
           hasBullet={true}
         />
       </AsideMenuItemWithSub>
